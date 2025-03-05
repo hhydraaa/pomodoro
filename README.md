@@ -78,11 +78,17 @@ A sleek and intuitive Pomodoro timer application built with Next.js and TypeScri
 
 If you want to use Google AdSense:
 1. Get your publisher ID from Google AdSense
-2. Add it to `.env.local`:
+2. Create `.env.local` file in the root directory
+3. Add your publisher ID to `.env.local`:
    ```
    NEXT_PUBLIC_ADSENSE_CLIENT=your-publisher-id
    ```
-3. For production deployment (e.g., Vercel), add the environment variable in your hosting platform
+4. For production deployment (e.g., Vercel):
+   - Add `NEXT_PUBLIC_ADSENSE_CLIENT` environment variable
+   - Set its value to your publisher ID
+   - Redeploy your application
+
+Note: The AdSense ads will only appear in production mode and when a valid publisher ID is provided.
 
 ## 🔧 Usage
 

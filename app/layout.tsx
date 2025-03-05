@@ -20,8 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Pomodoro - Modern Pomodoro Timer",
   description: "A modern, customizable Pomodoro timer to boost your productivity",
-  other: {
-    'google-adsense-account': ADSENSE_CONFIG.client,
+  metadataBase: new URL('https://pomodoro-hhydraaa.vercel.app'),
+  verification: {
+    google: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || 'your-adsense-client-id',
   },
 };
 
@@ -35,29 +36,8 @@ export default function RootLayout({
       <head>
         {ADSENSE_CONFIG.isEnabled && (
           <>
-            {/* Google AdSense Doğrulama Meta Etiketi */}
             <meta name="google-adsense-account" content={ADSENSE_CONFIG.client} />
-            
-            {/* Google AdSense */}
-            <Script
-              async
-              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CONFIG.client}`}
-              crossOrigin="anonymous"
-              strategy="afterInteractive"
-            />
-            {/* AdSense Auto Ads Kodu */}
-            <Script
-              id="adsbygoogle-init"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `
-                  (adsbygoogle = window.adsbygoogle || []).push({
-                    google_ad_client: "${ADSENSE_CONFIG.client}",
-                    enable_page_level_ads: true
-                  });
-                `,
-              }}
-            />
+            <meta name="google-site-verification" content={ADSENSE_CONFIG.client} />
           </>
         )}
       </head>
@@ -67,6 +47,14 @@ export default function RootLayout({
         <LocaleProvider>
           <PomodoroProvider>
             {children}
+            {ADSENSE_CONFIG.isEnabled && (
+              <Script
+                async
+                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CONFIG.client}`}
+                crossOrigin="anonymous"
+                strategy="afterInteractive"
+              />
+            )}
           </PomodoroProvider>
         </LocaleProvider>
       </body>
