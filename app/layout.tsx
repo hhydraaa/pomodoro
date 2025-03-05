@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   description: "A modern, customizable Pomodoro timer to boost your productivity",
   metadataBase: new URL('https://pomodoro-hhydraaa.vercel.app'),
   verification: {
-    google: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || 'your-adsense-client-id',
+    google: ADSENSE_CONFIG.getClient(),
   },
 };
 
@@ -31,13 +31,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const adsenseClient = ADSENSE_CONFIG.getClient();
+  
   return (
     <html lang="en" suppressHydrationWarning className="dark">
       <head>
         {ADSENSE_CONFIG.isEnabled && (
           <>
-            <meta name="google-adsense-account" content={ADSENSE_CONFIG.client} />
-            <meta name="google-site-verification" content={ADSENSE_CONFIG.client} />
+            <meta name="google-adsense-account" content={adsenseClient} />
+            <meta name="google-site-verification" content={adsenseClient} />
           </>
         )}
       </head>
@@ -49,10 +51,19 @@ export default function RootLayout({
             {children}
             {ADSENSE_CONFIG.isEnabled && (
               <Script
-                async
-                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CONFIG.client}`}
-                crossOrigin="anonymous"
+                id="adsense-init"
                 strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    (function() {
+                      const script = document.createElement('script');
+                      script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}';
+                      script.async = true;
+                      script.crossOrigin = 'anonymous';
+                      document.head.appendChild(script);
+                    })();
+                  `
+                }}
               />
             )}
           </PomodoroProvider>

@@ -9,6 +9,8 @@ import Script from 'next/script';
 import { ADSENSE_CONFIG } from './config/adsense';
 
 export default function Home() {
+  const adsenseClient = ADSENSE_CONFIG.getClient();
+  
   return (
     <div className="flex flex-col min-h-screen relative">
       {/* Background */}
@@ -19,13 +21,13 @@ export default function Home() {
         <div className="fixed left-0 top-1/2 transform -translate-y-1/2 hidden lg:block">
           <ins className="adsbygoogle"
             style={{ display: 'block', width: '160px', height: '600px' }}
-            data-ad-client={ADSENSE_CONFIG.client}
+            data-ad-client={adsenseClient}
             data-ad-slot="AUTO"
             data-ad-format="vertical"
             data-full-width-responsive="false">
           </ins>
-          <Script id="adsbygoogle-left">
-            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+          <Script id="adsbygoogle-left" strategy="afterInteractive">
+            {`try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { console.error(e); }`}
           </Script>
         </div>
       )}
@@ -35,13 +37,13 @@ export default function Home() {
         <div className="fixed right-0 top-1/2 transform -translate-y-1/2 hidden lg:block">
           <ins className="adsbygoogle"
             style={{ display: 'block', width: '160px', height: '600px' }}
-            data-ad-client={ADSENSE_CONFIG.client}
+            data-ad-client={adsenseClient}
             data-ad-slot="AUTO"
             data-ad-format="vertical"
             data-full-width-responsive="false">
           </ins>
-          <Script id="adsbygoogle-right">
-            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+          <Script id="adsbygoogle-right" strategy="afterInteractive">
+            {`try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) { console.error(e); }`}
           </Script>
         </div>
       )}
